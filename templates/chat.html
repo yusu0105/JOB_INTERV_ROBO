@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum HR Interview Companion</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;700&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: linear-gradient(135deg, #0f1633 0%, #020407 100%);
+        font-family: 'Roboto', sans-serif;
+        color: #e0e6ff;
+        overflow: hidden; /* Disable both horizontal and vertical scrolling */
+        perspective: 1000px;
+    }
+
+    .interview-universe {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 50%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+    }
+
+    .star {
+        position: absolute;
+        background-color: rgba(255,255,255,0.8);
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        animation: twinkle 3s infinite alternate;
+    }
+
+    @keyframes twinkle {
+        0% { 
+            opacity: 0.4;
+            transform: scale(0.8);
+        }
+        100% { 
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .interview-container {
+        width: 70%;
+        max-width: 700px;
+        min-height: 90vh;
+        margin: 5vh auto;
+        background: linear-gradient(145deg, rgba(23, 32, 56, 0.95) 0%, rgba(14, 19, 34, 0.95) 100%);
+        border-radius: 40px;
+        box-shadow: 
+            0 30px 60px rgba(0, 123, 255, 0.3), 
+            0 0 120px rgba(0, 255, 255, 0.2);
+        overflow: hidden;
+        transform-style: preserve-3d;
+        border: 3px solid rgba(0, 123, 255, 0.5);
+        position: relative;
+        backdrop-filter: blur(10px);
+    }
+
+    .holographic-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            45deg, 
+            rgba(0, 255, 255, 0.1), 
+            rgba(0, 123, 255, 0.1), 
+            rgba(255, 0, 255, 0.1)
+        );
+        mix-blend-mode: overlay;
+        pointer-events: none;
+        animation: hologram-pulse 5s infinite alternate;
+        opacity: 0.5;
+    }
+
+    @keyframes hologram-pulse {
+        0% { opacity: 0.3; }
+        100% { opacity: 0.6; }
+    }
+
+    .quantum-avatar {
+        width: 170px;
+        height: 170px;
+        margin: 40px auto;
+        background: linear-gradient(
+            135deg, 
+            rgba(0, 255, 255, 0.2), 
+            rgba(0, 123, 255, 0.3), 
+            rgba(14, 19, 34, 0.9)
+        );
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        transform-style: preserve-3d;
+        box-shadow: 
+            0 0 70px rgba(0, 255, 255, 0.4), 
+            inset 0 0 40px rgba(0, 123, 255, 0.3);
+        animation: avatar-float 4s infinite ease-in-out;
+        border: 3px solid rgba(0, 255, 255, 0.3);
+    }
+
+    @keyframes avatar-float {
+        0%, 100% { 
+            transform: translateY(0) rotate(0deg) perspective(1000px) rotateX(0deg) rotateY(0deg);
+        }
+        50% { 
+            transform: translateY(-20px) rotate(2deg) perspective(1000px) rotateX(5deg) rotateY(5deg);
+        }
+    }
+
+    .quantum-eye {
+        width: 35px;
+        height: 35px;
+        background: radial-gradient(
+            circle at 30% 30%, 
+            #00ffff, 
+            #0077ff, 
+            #1e1e32
+        );
+        border-radius: 50%;
+        position: absolute;
+        box-shadow: 
+            0 0 30px rgba(0, 255, 255, 0.6),
+            inset 0 0 15px rgba(0, 0, 0, 0.5);
+        animation: eye-pulse 3s infinite alternate;
+        border: 2px solid rgba(0, 255, 255, 0.5);
+    }
+
+    .quantum-eye::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40%;
+        height: 40%;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+    }
+
+    .quantum-eye.left { left: 25%; top: 40%; }
+    .quantum-eye.right { right: 25%; top: 40%; }
+
+    @keyframes eye-pulse {
+        0% { transform: scale(0.9) rotate(-1deg); }
+        100% { transform: scale(1.1) rotate(1deg); }
+    }
+
+    .chat-interface {
+        padding: 25px;
+    }
+
+    .message-container {
+        max-height: 400px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 123, 255, 0.5) transparent;
+        padding-right: 10px;
+    }
+
+    .message-container::-webkit-scrollbar {
+        width: 40px;
+    }
+
+    .message-container::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .message-container::-webkit-scrollbar-thumb {
+        background: rgba(0, 123, 255, 0.5);
+        border-radius: 10px;
+    }
+
+    .message {
+        max-width: 75%;
+        margin: 15px 0;
+        padding: 18px;
+        border-radius: 20px;
+        position: relative;
+        clear: both;
+        backdrop-filter: blur(15px);
+        border: 2px solid rgba(0, 255, 255, 0.2);
+        transition: all 0.3s ease;
+        line-height: 1.6;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .message-user {
+        align-self: flex-end;
+        background: linear-gradient(135deg, rgba(0, 123, 255, 0.8), rgba(0, 255, 255, 0.8));
+        color: white;
+        margin-left: auto;
+    }
+
+    .message-assistant {
+        align-self: flex-start;
+        background: linear-gradient(135deg, rgba(14, 19, 34, 0.8), rgba(30, 40, 70, 0.8));
+        color: #e0e6ff;
+    }
+
+    .input-quantum-container {
+        display: flex;
+        align-items: center;
+        background: rgba(14, 19, 34, 0.9);
+        padding: 20px;
+        border-top: 2px solid rgba(0, 123, 255, 0.3);
+    }
+
+    .quantum-input {
+        flex-grow: 1;
+        padding: 15px 25px;
+        background: rgba(30, 40, 70, 0.8);
+        border: 3px solid rgba(0, 255, 255, 0.3);
+        border-radius: 40px;
+        color: #e0e6ff;
+        font-family: 'Orbitron', sans-serif;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+
+    .quantum-input:focus {
+        outline: none;
+        border-color: #00ffff;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    }
+
+    .quantum-submit {
+        background: linear-gradient(135deg, #00ffff, #0077ff);
+        color: #090a0f;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 20px;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+    }
+
+    .quantum-submit:hover {
+        transform: scale(1.1) rotate(15deg);
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+    }
+
+    .quantum-status {
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 255, 255, 0.3);
+        color: #00ffff;
+        padding: 10px 25px;
+        border-radius: 25px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 0.9rem;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    @media (max-width: 768px) {
+        .interview-container {
+            width: 98%;
+            margin: 2vh auto;
+            border-radius: 30px;
+        }
+
+        .quantum-avatar {
+            width: 250px;
+            height: 250px;
+        }
+
+        .quantum-eye {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+    #feedback-container {
+        border: 2px solid #4CAF50;
+        background-color: #e8f5e9;
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .message.feedback-message {
+        font-size: 1.1em;
+        color: #2e7d32;
+    }
+
+    .message.feedback-message strong {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    #video-frame {
+        position: fixed;
+        top: 50px;
+        right: 50px;
+        width: 320px;
+        height: 250px;
+        border: 2px solid #ccc;
+    }
+
+    #status {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-size: 20px;
+        text-align: center;
+        display: block;
+    }
+
+
+
+</style>
+
+</head>
+<body>
+
+    <div id="video-container">
+        <img id="video-frame" src="/video_feed" alt="Video feed">
+        <div id="status">Loading video...</div>
+    
+    </div>
+        <div class="interview-universe" id="starField"></div>
+        
+        <div class="interview-container relative">
+            <div class="holographic-overlay"></div>
+            
+            <div class="quantum-avatar">
+                <div class="quantum-eye left"></div>
+                <div class="quantum-eye right"></div>
+            </div>
+            
+            <div class="chat-interface">
+                <div class="message-container flex flex-col" id="chatBox">
+                    {% for message in conversation_history %}
+                            <div class="message {{ message.role }}">
+                                <strong>{{ message.role }}:</strong> {{ message.content }}
+                            </div>
+                        {% endfor %}
+                </div>
+
+                
+
+                
+
+
+                {% if feedback %}
+                <div id="feedback-container">
+                    <div class="message feedback-message">
+                        <p><strong>Feedback:</strong> {{ feedback }}</p>
+                        <audio controls>
+                            <source src="{{ url_for('static', filename='audio/mp3') }}" type="audio/mp3">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+                
+        {% endif %}
+          
+                <div class="input-quantum-container">
+                    <form action="/chat" method="POST" class="flex w-full" id="chatForm">
+                        <input type="text" 
+                            name="user_input" 
+                            class="quantum-input" 
+                            id="userInput" 
+                            placeholder="Quantum Interview Response... (/restart to reset)" 
+                            required>
+                        <button type="submit" class="quantum-submit">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <button type="button" id="voiceButton" class="quantum-submit">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="quantum-status">
+                    Quantum Interview Mode: Active
+                </div>
+            </div>
+        </div>
+
+        
+    
+        {% if audio_stream %}
+        <audio id="audio-player" autoplay>
+            <source src="data:audio/mp3;base64,{{ audio_stream }}" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    {% endif %}
+        
+         
+        
+
+
+<script>
+
+
+
+window.onload = function() {
+    const audioPlayer = document.getElementById('audio-player');
+    if (audioPlayer) {
+        audioPlayer.play();
+    }
+}
+
+// Text-to-Speech (TTS) for GPT responses
+function speakText(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';  // Set language for TTS
+    utterance.pitch = 1;       // Adjust pitch (0 to 2)
+    utterance.rate = 1;        // Adjust rate (0.1 to 10)
+
+    // Speak the text
+    window.speechSynthesis.speak(utterance);
+}
+
+// Example: When GPT generates a message, call speakText() with the response.
+function handleGPTResponse(responseText) {
+    // Display the response in the chat
+    const chatBox = document.getElementById('chatBox');
+    const message = document.createElement('div');
+    message.classList.add('message', 'message-assistant');
+    message.innerHTML = `<strong>Assistant:</strong> ${responseText}`;
+    chatBox.appendChild(message);
+
+    // Call TTS to read out the response
+    speakText(responseText);
+}
+
+// This function can be triggered by GPT's response:
+
+    handleGPTResponse('{{ conversation_history[-1].content }}');
+
+
+
+   
+
+
+
+
+    // Initialize Speech Recognition (Voice Input)
+    let recognition;
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+
+        recognition.continuous = false; // Single phrase
+        recognition.lang = 'en-US'; // Language setting
+        recognition.interimResults = false; // Only final results
+
+        recognition.onstart = function () {
+            console.log('Voice recognition started');
+            const status = document.getElementById('status');
+            if (status) status.textContent = "Listening...";
+        };
+
+        recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript;
+            const inputField = document.getElementById('userInput');
+            inputField.value = transcript; // Set recognized speech as input value
+            console.log('Recognized Text: ', transcript);
+
+            // Auto-submit form after recognition
+            const form = document.getElementById('chatForm');
+            if (form) form.submit();
+        };
+
+        recognition.onerror = function (event) {
+            console.error('Speech recognition error: ', event.error);
+            const status = document.getElementById('status');
+            if (status) status.textContent = "Error: Please try again.";
+        };
+
+        recognition.onend = function () {
+            console.log('Voice recognition ended');
+            const status = document.getElementById('status');
+            if (status) status.textContent = "Ready";
+        };
+    } else {
+        console.warn('Speech recognition is not supported in this browser.');
+        alert('Speech recognition is not supported in this browser. Please use Google Chrome for full functionality.');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const voiceButton = document.getElementById('voiceButton');
+        const status = document.getElementById('status');
+        if (status) status.textContent = "Ready";
+
+        // Start voice recognition when microphone button is clicked
+        voiceButton.addEventListener('click', function () {
+            if (recognition) {
+                recognition.start();
+            } else {
+                alert('Speech recognition is not supported in this browser.');
+            }
+        });
+    });
+
+    // Interactive avatar
+    const avatar = document.querySelector('.quantum-avatar');
+    document.addEventListener('mousemove', function(e) {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        
+        const angleX = (e.clientX - centerX) / 40;
+        const angleY = (e.clientY - centerY) / 40;
+        
+        avatar.style.transform = `rotateX(${-angleY}deg) rotateY(${angleX}deg) translateZ(20px)`;
+    });
+
+   // Initialize Face Detection with Canvas
+const video = document.getElementById('camera-feed'); // Ensure this ID matches the video element in HTML
+const canvas = document.getElementById('overlay');
+const context = canvas.getContext('2d');
+const monitorAlert = document.getElementById('monitor-alert'); // Ensure this alert element exists
+
+const INACTIVITY_THRESHOLD = 5000; // 5 seconds for inactivity alert
+let noFaceDetectedTimeout; // Timer for monitoring inactivity
+
+// Check if face detection has already been started
+if (!localStorage.getItem('cameraInitialized')) {
+    startCamera();
+} else {
+    console.log("Camera already initialized. Skipping initialization on page refresh.");
+}
+
+async function startCamera() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+
+        // Set canvas size to match video size
+        video.addEventListener('loadedmetadata', () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+        });
+
+        // Load face-api.js model
+        await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
+        detectFaces();
+
+        // Set flag to prevent camera initialization on refresh
+        localStorage.setItem('cameraInitialized', 'true');
+    } catch (error) {
+        console.error("Error accessing the camera:", error);
+    }
+}
+
+async function detectFaces() {
+    const options = new faceapi.TinyFaceDetectorOptions();
+
+    video.addEventListener('play', () => {
+        const interval = setInterval(async () => {
+            const detections = await faceapi.detectAllFaces(video, options);
+
+            // Clear canvas before each detection
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (detections.length > 0) {
+                // Reset inactivity timer
+                clearTimeout(noFaceDetectedTimeout);
+                monitorAlert.style.display = "none"; 
+
+                detections.forEach(detection => {
+                    const box = detection.box;
+                    context.strokeStyle = 'red';
+                    context.lineWidth = 2;
+                    context.strokeRect(box.x, box.y, box.width, box.height);
+                });
+            } else {
+                noFaceDetectedTimeout = setTimeout(() => {
+                    monitorAlert.style.display = "block"; 
+                }, INACTIVITY_THRESHOLD);
+            }
+        }, 1000); 
+    });
+}
+startCamera();
+</script>
+
+
+
+        </script>
+    </body>
+    </html>
